@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  img {
+      width:  100px;
+      height: 100px;
+  }
+  </style>
+</head>
+<body>
+  <p>Click on the button to copy the color from the text field. Try to paste the text (e.g. ctrl+v) afterwards in a different window, to see the effect.</p>
+  <form action="http://localhost:6969/" method="post">
+    <input type="text" name="name" placeholder="Code of this color">
+    <input type="text" name="url" placeholder="Link of this color">
+    <button type="submit"> ADDING</button>
+  </form>
+  <h1>Number of colors: <%= image.length %></h1>
+  <% for (let color of image){%>
+      <div class="tooltip">
+      <button type="button" class="copy" value=<%=color.name %>>
+        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+        <h2><%= color.name %> </h2>
+        <img src=<%=color.url%> alt="">
+      </button>
+      <form action="http://localhost:6969/?_method=DELETE" method="post">
+        <input type="hidden" name="name" value=<%=color.name %> >
+        <button type="submit">delete</button>
+      </form>
+      </div>
+  <% } %>
+  <script src="/app.js"></script>
+</body>
+</html>
